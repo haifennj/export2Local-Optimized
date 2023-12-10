@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>org.summer.export2Local</id>
-    <name>export2Local</name>
-    <version>1.7</version>
+    <id>org.summer.export2Local.optimized</id>
+    <name>export2Local-Optimized</name>
+    <version>1.9</version>
     <vendor email="" url="https://github.com/dahai1698/export2Local">summer.mkm</vendor>
 
     <description><![CDATA[
@@ -23,7 +23,7 @@
     <!-- uncomment to enable plugin in all products
     <depends>com.intellij.modules.lang</depends>
     -->
-    <depends>com.intellij.modules.java</depends>
+<!--    <depends>com.intellij.modules.java</depends>-->
     <extensions defaultExtensionNs="com.intellij">
         <!-- Add your extensions here -->
     </extensions>
