@@ -1,4 +1,7 @@
 import com.intellij.ide.util.PropertiesComponent;
+import com.intellij.notification.Notification;
+import com.intellij.notification.NotificationType;
+import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.module.Module;
@@ -16,6 +19,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 public class Export2LocalDialog extends JDialog {
 
@@ -64,6 +68,14 @@ public class Export2LocalDialog extends JDialog {
         // call onCancel() on ESCAPE
         contentPane.registerKeyboardAction(e -> onCancel(), KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 
+
+		SimpleDateFormat datetimeFormat = new SimpleDateFormat("yyyyMMdd_HH");
+		String time = datetimeFormat.format(System.currentTimeMillis());
+
+		String userHome = System.getProperty("user.home");
+		String defaultOutput = userHome + System.getProperty("file.separator") + "Desktop" + System.getProperty("file.separator") + event.getProject().getName()+"@"+time;
+        textField.setText(defaultOutput);
+
         // 保存路径按钮事件
         fileChooseBtn.addActionListener(e -> {
 
@@ -97,8 +109,12 @@ public class Export2LocalDialog extends JDialog {
         try {
 			progressBar1.setVisible(true);
 			progressBar1.paintImmediately(progressBar1.getBounds());
-			ModuleManager moduleManager = ModuleManager.getInstance(event.getProject());
-			Module[] modules = moduleManager.getModules();
+//			ModuleManager moduleManager = ModuleManager.getInstance(event.getProject());
+//			Module[] modules = moduleManager.getModules();
+			// 只从当前右键菜单中获取对应模块，不便利所有，解决会有重复导出的情况
+			Module currentModule = this.event.getData(LangDataKeys.MODULE);
+			Module[] modules = new Module[]{currentModule};
+
 			String moduleName;
 			String srcPath;
 			String resPath;
@@ -154,7 +170,9 @@ public class Export2LocalDialog extends JDialog {
 			}
 			progressBar1.setVisible(false);
 			progressBar1.paintImmediately(progressBar1.getBounds());
-			Messages.showInfoMessage(this,"Export Successful!","Info");
+//			Messages.showInfoMessage(this,"Export Successful!","Info");
+			Notification notification = new Notification("Export2Local Notification Group", "Export2Local", "Export Successful!", NotificationType.INFORMATION);
+			notification.notify(AnAction.getEventProject(event));
 		} catch (Exception e) {
 			e.printStackTrace();
 			progressBar1.setVisible(false);
@@ -164,7 +182,9 @@ public class Export2LocalDialog extends JDialog {
 				errorMsg += "[Probably not compiled]";
 
 			}
-			Messages.showErrorDialog(this, errorMsg, "Error");
+//			Messages.showErrorDialog(this, errorMsg, "Error");
+			Notification notification = new Notification("Export2Local Notification Group", "Export2Local", errorMsg, NotificationType.ERROR);
+			notification.notify(AnAction.getEventProject(event));
         }
 
         dispose();
