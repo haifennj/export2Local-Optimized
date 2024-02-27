@@ -123,6 +123,9 @@ public class Export2LocalDialog extends JDialog {
 			for (Module module : modules) {
 				String projectName = module.getProject().getName();
 				moduleName = module.getName();
+				if (moduleName.equals("aws.release")) {
+					moduleName = "release";
+				}
 				//多模块项目中排除项目名和模块名相同的模块
 				if(moduleSize > 1 && projectName.equals(moduleName)){
 					continue;
