@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>org.summer.export2Local.optimized</id>
     <name>export2Local-Optimized</name>
-    <version>1.9</version>
+    <version>1.10</version>
     <vendor email="" url="https://github.com/dahai1698/export2Local">summer.mkm</vendor>
 
     <description><![CDATA[
