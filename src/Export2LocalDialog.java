@@ -5,7 +5,6 @@ import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.module.ModuleManager;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.util.io.FileUtil;
 import com.intellij.openapi.vfs.VirtualFile;
@@ -73,7 +72,8 @@ public class Export2LocalDialog extends JDialog {
 		String time = datetimeFormat.format(System.currentTimeMillis());
 
 		String userHome = System.getProperty("user.home");
-		String defaultOutput = userHome + System.getProperty("file.separator") + "Desktop" + System.getProperty("file.separator") + event.getProject().getName()+"@"+time;
+		String fileSeparator = System.getProperty("file.separator");
+		String defaultOutput = userHome + fileSeparator + "Desktop" + fileSeparator + event.getProject().getName() + fileSeparator + event.getProject().getName()+"@"+time;
         textField.setText(defaultOutput);
 
         // 保存路径按钮事件
